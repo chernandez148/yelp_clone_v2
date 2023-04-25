@@ -1,0 +1,25 @@
+.NavBar nav {
+    background-color: #fffffff0;
+
+}
+
+.NavBar li a.logo {
+    background-color: transparent;
+}
+
+.NavBar li a {
+    background-color: white;
+    color: #757575;
+    box-shadow: 0px 0px 4px 3px #ededed;
+    text-decoration: none;
+
+}
+
+.search-form {
+    box-shadow: 0px 0px 4px 3px #ededed;
+    background-color: white;
+}
+
+input:focus {
+    outline: none !important;
+}
