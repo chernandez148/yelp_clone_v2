@@ -35,6 +35,7 @@ class Businesses(Resource):
 api.add_resource(Businesses, '/businesses')
 
 class SignUp(Resource):
+
     def post(self):
         form_json = request.get_json()
         try:
@@ -47,9 +48,16 @@ class SignUp(Resource):
             )
             db.session.add(new_user)
             db.session.commit()
+
             session["user_id"] = new_user.id
+
             response_dict = new_user.to_dict()
-            return jsonify(response_dict), 201
+            responce = make_response(
+                response_dict,
+                201
+            )
+            return responce
+
         except ValueError as e:
             abort(422, e.args[0])
         except IntegrityError as e:
@@ -57,6 +65,40 @@ class SignUp(Resource):
             abort(422, "Email already exists.")
 
 api.add_resource(SignUp, "/signup")
+
+class Login(Resource):
+
+    def post(self):
+        check_user = User.query.filter(User.email == request.get_json()['email']).first()
+
+        if check_user and check_user.authenticate(request.get_json()['password']):
+            session['user_id'] = check_user.id
+            return make_response(check_user.to_dict(), 200)
+        return {'error': 'Unauthorized'}, 401
+
+api.add_resource(Login, '/login')
+
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None 
+        response = make_response('',204)
+        return response
+    
+api.add_resource(Logout, '/logout')
+
+class AuthorizedSession(Resource):
+    def get(self):
+        try:
+            user = User.query.filter_by(id=session['user_id']).first()
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            return response
+        except:
+            abort(401, "Unauthorized")
+
+api.add_resource(AuthorizedSession, '/authorized')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

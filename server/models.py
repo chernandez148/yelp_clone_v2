@@ -7,7 +7,6 @@ from bcrypt import hashpw, gensalt
 from flask_bcrypt import Bcrypt
 from config import app, db
 
-
 bcrypt = Bcrypt(app)
 
 class User(db.Model, SerializerMixin):

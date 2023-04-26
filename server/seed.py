@@ -27,6 +27,8 @@ with app.app_context():
         )
         db.session.add(user)
 
+    db.session.commit()
+
     # create seed data for Business model
     for i in range(10):
         business = Business(
