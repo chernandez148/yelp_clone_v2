@@ -1,0 +1,21 @@
+.sliding-word {
+    position: relative;
+    overflow: hidden;
+}
+
+.word {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.word.active {
+    opacity: 1;
+    position: relative;
+}
+
+.word.slide-up {
+    top: -100%;
+}

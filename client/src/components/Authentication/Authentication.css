@@ -27,6 +27,10 @@ form span {
     color: rgb(241, 90, 90);
 }
 
+.upload_img {
+    box-shadow: none !important;
+}
+
 .fw-600 {
     font-weight: 600;
 }

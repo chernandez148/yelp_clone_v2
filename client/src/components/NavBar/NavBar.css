@@ -1,18 +1,21 @@
 .NavBar nav {
     background-color: #fffffff0;
+    z-index: 1;
 
+}
+
+.NavBar a {
+    color: #353535 !important;
+    text-decoration: none;
 }
 
 .NavBar li a.logo {
     background-color: transparent;
 }
 
-.NavBar li a {
+.NavBar li a.auth {
     background-color: white;
-    color: #757575;
     box-shadow: 0px 0px 4px 3px #ededed;
-    text-decoration: none;
-
 }
 
 .search-form {
@@ -22,4 +25,27 @@
 
 input:focus {
     outline: none !important;
+}
+
+.user-menu-wrapper {
+    background-color: #ffffff;
+    width: 300px;
+    position: relative;
+    left: 300px;
+    transition: left .5s ease-in-out;
+    z-index: 2;
+}
+
+.user-menu-wrapper span {
+    font-weight: 500;
+}
+
+.user-menu-wrapper ul li {
+    margin: 1rem 0;
+}
+
+.user-menu-wrapper a {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
 }

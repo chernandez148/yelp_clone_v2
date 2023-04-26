@@ -12,11 +12,12 @@ function Authentication({ updateUser }) {
 
     const formSchema = yup.object().shape({
         fname: yup.string("Please enter a first name"),
-        lname: yup.string("please enter a last name"),
-        account_type: yup.string().required("Please select account type"),
+        lname: yup.string("Please enter a last name"),
+        account_type: yup.string("Please select an account type"),
         email: yup.string().email().required("Please enter your email"),
-        password: yup.string().required("Please enter a password")
+        password: yup.string().required("Please enter a password"),
     });
+
 
     const formik = useFormik({
         initialValues: {
@@ -28,21 +29,21 @@ function Authentication({ updateUser }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            console.log(values)
+            console.log('Form submitted', values);
             fetch(signUp ? '/signup' : '/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...values, password: values.password }, null, 2),
+                body: JSON.stringify({ ...values, password: values.password }),
             }).then((resp) => {
                 if (resp.ok) {
                     resp.json().then((user) => {
-                        console.log(user)
+                        console.log('User retrieved', user);
                         updateUser(user);
-                        if (values.account_type === "user") {
+                        if (user.account_type === "user") {
                             navigate("/")
-                        } else if (values.account_type === "business") {
+                        } else if (user.account_type === "business") {
                             navigate("/")
                         }
                     });
@@ -52,6 +53,10 @@ function Authentication({ updateUser }) {
             })
         }
     })
+
+    console.log('Formik values:', formik.values);
+    console.log('Formik errors:', formik.errors);
+
 
     return (
         <div className='Authentication'>
@@ -99,9 +104,9 @@ function Authentication({ updateUser }) {
                 <span>{formik.errors.password}</span>
                 {signUp && formik.errors && (
                     <>
-                        <label htmlFor="account_type" className='fw-600 mb-1'>Account Type:</label>
-                        <div className='accoutn_type d-flex flex-row mb-2'>
-                            <label className='me-3' htmlFor="account_type">
+                        <label htmlFor="account_type" className='fw-600 mb-1 mt-3'>Account Type:</label>
+                        <div className='account_type d-flex flex-row mb-2'>
+                            <label className='me-3'>
                                 <input
                                     type="radio"
                                     name="account_type"
@@ -112,7 +117,7 @@ function Authentication({ updateUser }) {
                                 />
                                 User
                             </label>
-                            <label htmlFor="account_type">
+                            <label className=''>
                                 <input
                                     type="radio"
                                     name="account_type"
@@ -121,11 +126,10 @@ function Authentication({ updateUser }) {
                                     checked={formik.values.account_type === 'business'}
                                     onChange={formik.handleChange}
                                 />
-                                Businesses
+                                Business
                             </label>
                         </div>
                         <span>{formik.errors.account_type}</span>
-
                     </>
 
                 )}
